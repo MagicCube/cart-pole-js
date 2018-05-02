@@ -1,7 +1,7 @@
 {
-  "name": "tensorflow-test",
+  "name": "gym-cartpole-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "A TensorFlow.js based 'Gym Cartpole' game implemented in JavaScript.",
   "main": "index.js",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -34,6 +34,6 @@
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Henry Li <henry1943@163.com>",
+  "license": "MIT"
 }
