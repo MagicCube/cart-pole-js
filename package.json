@@ -1,5 +1,5 @@
 {
-  "name": "gym-cartpole-js",
+  "name": "gym-cart-pole-js",
   "version": "1.0.0",
   "description": "A TensorFlow.js based 'Gym Cartpole' game implemented in JavaScript.",
   "main": "index.js",
