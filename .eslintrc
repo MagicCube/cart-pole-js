@@ -18,7 +18,7 @@
     "class-methods-use-this": "off",
     "max-len": "warn",
     "no-mixed-operators": "off",
-    "no-unused-vars": "off",
+    "no-unused-vars": "warn",
     "no-use-before-define": "off",
     "no-console": [
       "warn",
