@@ -1,3 +1,7 @@
+import { Engine, Events, Render } from 'matter-js';
+
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
+import CartPole from './CartPole';
 import Stage from './Stage';
 
 /**
@@ -8,6 +12,16 @@ export default class Game {
    * Root HTML element of the game.
    */
   rootElement = null;
+
+  /**
+   * The engine of Matter.js
+   */
+  engine = null;
+
+  /**
+   * The renderer of Matter.js
+   */
+  renderer = null;
 
   /**
    * The Stage object.
@@ -26,10 +40,83 @@ export default class Game {
    * Construct and initialize objects in the game.
    */
   setup() {
-    this.stage = new Stage(this.rootElement);
+    this.initMatterJS();
+    this.stage = new Stage(this.engine.world);
+    window.addEventListener('keydown', this.handleKeyDown);
+    this.reset();
   }
 
-  loop() {
+  /**
+   * Initialize engine and renderer of Matter.js.
+   */
+  initMatterJS() {
+    this.engine = Engine.create();
+    this.renderer = Render.create({
+      element: this.rootElement,
+      engine: this.engine,
+      options: {
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT,
+        wireframes: false,
+        background: '#ffff'
+      }
+    });
+  }
 
+  handleAfterUpdate = () => {
+    this.update();
+  };
+
+  handleKeyDown = ({ key }) => {
+    switch (key) {
+      case 'ArrowLeft':
+        this.cartPole.applyForce(-0.02);
+        break;
+      case 'ArrowRight':
+        this.cartPole.applyForce(0.02);
+        break;
+      default:
+        break;
+    }
+  };
+
+  /**
+   * Run the game.
+   */
+  run() {
+    Engine.run(this.engine);
+    Render.run(this.renderer);
+    Events.on(this.engine, 'afterUpdate', this.handleAfterUpdate);
+  }
+
+  /**
+   * Reset the game to the beginning state.
+   */
+  reset() {
+    this.stage.reset();
+    this.cartPole = new CartPole();
+    this.stage.add(this.cartPole);
+  }
+
+  /**
+   * Start the game.
+   */
+  start() {
+    // Apply a slight force to break the balance after the game begins.
+    this.cartPole.applyForce(0.005);
+  }
+
+  /**
+   * Reset and start the game again.
+   */
+  restart() {
+    this.reset();
+    this.start();
+  }
+
+  /**
+   *
+   */
+  update() {
   }
 }
