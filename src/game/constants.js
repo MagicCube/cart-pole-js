@@ -1,5 +1,5 @@
 export const CANVAS_WIDTH = 1024;
-export const CANVAS_HEIGHT = 500;
+export const CANVAS_HEIGHT = 360;
 
 export const GROUND_HEIGHT = 20;
 
