@@ -70,10 +70,10 @@ export default class Game {
   handleKeyDown = ({ key }) => {
     switch (key) {
       case 'ArrowLeft':
-        this.cartPole.applyForce(-0.02);
+        this.cartPole.applyForce(-0.03);
         break;
       case 'ArrowRight':
-        this.cartPole.applyForce(0.02);
+        this.cartPole.applyForce(0.03);
         break;
       default:
         break;
@@ -103,7 +103,8 @@ export default class Game {
    */
   start() {
     // Apply a slight force to break the balance after the game begins.
-    this.cartPole.applyForce(0.005);
+    const SLIGHT_FORCE = 0.008;
+    this.cartPole.applyForce(SLIGHT_FORCE * Math.random() - SLIGHT_FORCE / 2);
   }
 
   /**
