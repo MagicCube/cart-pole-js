@@ -119,5 +119,6 @@ export default class Game {
    *
    */
   update() {
+    document.getElementById('cp-info').innerText = this.cartPole.getState().map(value => value.toFixed(2)).join('\n');
   }
 }
