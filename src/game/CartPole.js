@@ -14,18 +14,18 @@ export default class CartPole extends PhysicalObject {
 
   initParts() {
     this.body = Composite.create();
-    const offsetX = CANVAS_WIDTH / 2;
     const group = Body.nextGroup(true);
+    const initialPosition = this.getInitialPosition();
     this.cart = Bodies.rectangle(
-      offsetX,
-      CANVAS_HEIGHT - GROUND_HEIGHT - CART_HEIGHT / 2,
+      initialPosition.x,
+      initialPosition.y,
       CART_WIDTH,
       CART_HEIGHT,
       { collisionFilter: { group } }
     );
     this.pole = Bodies.rectangle(
-      offsetX,
-      CANVAS_HEIGHT - GROUND_HEIGHT - CART_HEIGHT / 2 - POLE_HEIGHT / 2,
+      initialPosition.x,
+      initialPosition.y - POLE_HEIGHT / 2,
       POLE_WIDTH,
       POLE_HEIGHT,
       { collisionFilter: { group } }
@@ -43,9 +43,21 @@ export default class CartPole extends PhysicalObject {
   }
 
   getState() {
+    return [
+      parseInt(this.cart.position.x - this.getInitialPosition().x, 0) / (CANVAS_WIDTH / 2),
+      this.cart.velocity.x,
+      this.pole.angle / Math.PI,
+      this.pole.angularSpeed
+    ];
+  }
+
+  getStateJSON() {
+    const state = this.getStateJSON();
     return {
-      poleAngle: this.pole.angle,
-      poleAngularSpeed: this.pole.angularSpeed
+      cartPosition: state[0],
+      cartSpeed: state[1],
+      poleAngle: state[2],
+      poleAngularSpeed: state[3]
     };
   }
 
