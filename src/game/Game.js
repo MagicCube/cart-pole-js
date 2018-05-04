@@ -4,6 +4,8 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
 import CartPole from './CartPole';
 import Stage from './Stage';
 
+const DEFAULT_FORCE = 0.03;
+
 /**
  * The game application class.
  */
@@ -47,7 +49,6 @@ export default class Game {
   init() {
     this.initMatterJS();
     this.stage = new Stage(this.engine.world);
-    window.addEventListener('keydown', this.handleKeyDown);
     this.reset();
   }
 
@@ -121,5 +122,25 @@ export default class Game {
    */
   update() {
     document.getElementById('cp-info').innerText = this.cartPole.getState().map(value => value.toFixed(2)).join('\n');
+  }
+
+  /**
+   *
+   */
+  dispatch(action) {
+    let actionObj = null;
+    if (typeof action === 'object') {
+      actionObj = action;
+    } else if (typeof action === 'number') {
+      actionObj = {
+        type: 'move',
+        payload: action * DEFAULT_FORCE
+      };
+    } else {
+      throw new Error('Unknown type of Action.');
+    }
+    if (actionObj.type === 'move') {
+      this.cartPole.applyForce(actionObj.payload);
+    }
   }
 }

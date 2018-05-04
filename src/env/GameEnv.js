@@ -11,26 +11,12 @@ export default class GameEnv {
     this.game.init();
   }
 
-  async executeAction(action) {
-    const FORCE = 0.03;
-    switch (action) {
-      case 1:
-        this.cartPole.applyForce(FORCE);
-        break;
-      case -1:
-        this.cartPole.applyForce(-FORCE);
-        break;
-      default:
-        break;
-    }
-  }
-
   async getObservation() {
     return this.game.getState();
   }
 
   async step(action) {
-    await this.executeAction(action);
+    this.game.dispatch(action);
     const observation = await this.getObservation();
     const gameOver = false;
     return {
