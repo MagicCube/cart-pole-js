@@ -15,25 +15,35 @@ export default class GameEnv {
 
   handleUpdate = () => {
     if (this.agent) {
-      const action = this.agent.react({
-        observation: this.getObservation(),
-        reward: this.game.gameOverred ? 0 : 1,
-        done: this.game.gameOverred
-      });
-      if (action) {
-        this.game.dispatch(action);
+      if (this.game.gameOverred) {
+        // Send the last state to the agent.
+        this.agent.react({
+          observation: this.game.getState(),
+          reward: 0,
+          done: true
+        });
+        // Display the Game Over UI for a while.
+        setTimeout(() => {
+          this.reset();
+        }, 600);
+      } else {
+        // Send the state to the agent
+        const action = this.agent.react({
+          observation: this.game.getState(),
+          reward: 1,
+          done: false
+        });
+        // And send the action in return
+        if (action) {
+          this.game.dispatch(action);
+        }
       }
+      // Update status.
       document.getElementById('cp-status').innerText = this.agent.getStatus();
     }
   };
 
-  getObservation() {
-    return this.game.getState();
-  }
-
   reset() {
     this.game.restart();
-    const observation = this.getObservation();
-    return observation;
   }
 }
