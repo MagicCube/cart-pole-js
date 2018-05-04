@@ -52,7 +52,7 @@ export default class CartPole extends PhysicalObject {
   }
 
   getStateJSON() {
-    const state = this.getStateJSON();
+    const state = this.getState();
     return {
       cartPosition: state[0],
       cartSpeed: state[1],
