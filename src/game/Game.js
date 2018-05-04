@@ -4,7 +4,7 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
 import CartPole from './CartPole';
 import Stage from './Stage';
 
-const DEFAULT_FORCE = 0.03;
+const DEFAULT_FORCE = 0.01;
 
 /**
  * The game application class.
@@ -38,6 +38,11 @@ export default class Game {
    * The Stage object.
    */
   stage = null;
+
+  /**
+   * Fires when update().
+   */
+  onUpdate = null;
 
   /**
    * Construct the Game application.
@@ -82,14 +87,6 @@ export default class Game {
     this.gameOverElement = document.createElement('div');
     this.gameOverElement.className = 'cp-game-over';
     this.gameOverElement.innerText = 'GAME OVER';
-  }
-
-  /**
-   * Get a array-formed vector which indicates the game state.
-   * [ cartPositionX, cartSpeed, poleAngle, poleAngularSpeed ]
-   */
-  getState() {
-    return this.cartPole.getState();
   }
 
   handleAfterUpdate = () => {
@@ -149,25 +146,37 @@ export default class Game {
   }
 
   /**
+   * Get a array-formed vector which indicates the game state.
+   * [ cartPositionX, cartSpeed, poleAngle, poleAngularSpeed ]
+   */
+  getState() {
+    return this.cartPole.getState();
+  }
+
+  /**
    * Check game state to see whether it is game overred.
    */
   checkState() {
     if (!this.gameOverred) {
-      const [cartPos, , poleAngle] = this.cartPole.getState();
-      if (Math.abs(cartPos) > 0.95) {
+      const state = this.cartPole.getStateJSON();
+      if (Math.abs(state.cartPosition) > 0.95) {
         this.gameOver();
-      } else if (Math.abs(poleAngle) >= 0.5) {
+      } else if (Math.abs(state.poleAngle) >= 0.5) {
         this.gameOver();
       }
     }
-    return this.gameOverred;
   }
 
   /**
    * Updates continuously when running.
    */
   update() {
-    this.checkState();
+    if (!this.gameOverred) {
+      this.checkState();
+    }
+    if (typeof this.onUpdate === 'function') {
+      this.onUpdate();
+    }
   }
 
   /**
@@ -194,8 +203,17 @@ export default class Game {
     } else {
       throw new Error('Unknown type of Action.');
     }
-    if (actionObj.type === 'move') {
-      this.cartPole.applyForce(actionObj.payload);
+
+    switch (actionObj.type) {
+      case 'move':
+        this.cartPole.applyForce(actionObj.payload);
+        break;
+      case 'reset':
+      case 'restart':
+        this.restart();
+        break;
+      default:
+        break;
     }
   }
 }

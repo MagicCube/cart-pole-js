@@ -1,28 +1,19 @@
 import GameEnv from './env/GameEnv';
+import KeyboardAgent from './agents/KeyboardAgent';
 
 import './index.less';
 
 let env = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+function setup() {
+  // Initialize agent
+  const agent = new KeyboardAgent();
+  agent.init();
+  // Initialize game environment
   env = new GameEnv(document.getElementById('cp-game'));
-  window.env = env;
+  env.agent = agent;
+  // Start loop
   env.reset();
-});
+}
 
-
-window.addEventListener('keydown', ({ key }) => {
-  switch (key.toLowerCase()) {
-    case 'arrowright':
-      env.step(1);
-      break;
-    case 'arrowleft':
-      env.step(-1);
-      break;
-    case 'r':
-      env.reset();
-      break;
-    default:
-      break;
-  }
-});
+document.addEventListener('DOMContentLoaded', setup);
