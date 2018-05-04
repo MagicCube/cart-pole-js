@@ -1,11 +1,12 @@
-import Game from './game/Game';
+import 'babel-polyfill';
+
+import GameEnv from './env/GameEnv';
 
 import './index.less';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const game = new Game(document.getElementById('cp-game'));
-  window.game = game;
-  game.init();
-  game.run();
-  game.restart();
+document.addEventListener('DOMContentLoaded', async () => {
+  const env = new GameEnv(document.getElementById('cp-game'));
+  window.env = env;
+  const result = await env.reset();
+  console.log(result);
 });
