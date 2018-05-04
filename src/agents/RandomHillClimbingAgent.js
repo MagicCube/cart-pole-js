@@ -1,6 +1,6 @@
 import Agent from './Agent';
 
-const DIVERSITY = 0.01;
+const DIVERSITY = 0.1;
 
 export default class RandomHillClimbingAgent extends Agent {
   totalReward = 0;
