@@ -1,15 +1,13 @@
-import 'babel-polyfill';
-
 import GameEnv from './env/GameEnv';
 
 import './index.less';
 
 let env = null;
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   env = new GameEnv(document.getElementById('cp-game'));
   window.env = env;
-  await env.reset();
+  env.reset();
 });
 
 

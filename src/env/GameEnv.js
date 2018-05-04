@@ -11,13 +11,13 @@ export default class GameEnv {
     this.game.init();
   }
 
-  async getObservation() {
+  getObservation() {
     return this.game.getState();
   }
 
-  async step(action) {
+  step(action) {
     this.game.dispatch(action);
-    const observation = await this.getObservation();
+    const observation = this.getObservation();
     const gameOverred = this.game.gameOverred;
     return {
       observation,
@@ -26,9 +26,9 @@ export default class GameEnv {
     };
   }
 
-  async reset() {
+  reset() {
     this.game.restart();
-    const observation = await this.getObservation();
+    const observation = this.getObservation();
     return observation;
   }
 }
