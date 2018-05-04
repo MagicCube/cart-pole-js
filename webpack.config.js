@@ -8,7 +8,7 @@ const ASSETS_PUBLIC_PATH = '/assets';
 module.exports = {
   context: ASSETS_SOURCE_PATH,
   entry: {
-    game: ['./game/index.js']
+    'cart-pole': ['./index.js']
   },
   output: {
     path: ASSETS_BUILD_PATH,
