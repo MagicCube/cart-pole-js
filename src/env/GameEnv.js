@@ -1,5 +1,7 @@
 import Game from '../game/Game';
 
+import BarChart from '../vis/BarChart';
+
 /**
  * The environment of Cart Pole game.
  */
@@ -16,11 +18,13 @@ export default class GameEnv {
     this.game = new Game(rootElement);
     this.game.onUpdate = this.handleUpdate;
     this.game.init();
+    this.barChart = new BarChart(document.getElementById('page'));
   }
 
   handleUpdate = () => {
     if (this.agent) {
       if (this.game.gameOverred) {
+        this.barChart.append(this.game.episode, this.totalReward);
         if (this.bestReward < this.totalReward) {
           this.bestReward = this.totalReward;
           this.bestEpisode = this.game.episode;
