@@ -1,18 +1,13 @@
 import Agent from './Agent';
 
-const DIVERSITY = 0.08;
+const DIVERSITY = 0.1;
 
 export default class RandomHillClimbingAgent extends Agent {
   bestTotalReward = 0;
   bestWeights = null;
 
-  getStatus() {
-    return `Current Weights: ${this.weights}\nBest Weights: ${this.bestWeights ? this.bestWeights : 'N/A'}`;
-  }
-
   onGameOver() {
-    if (this.totalReward > this.bestTotalReward) {
-      console.info('New record!', this.totalReward);
+    if (this.totalReward >= this.bestTotalReward) {
       this.bestTotalReward = this.totalReward;
       // Clone the weights as the best weights.
       this.bestWeights = this.weights.slice(0);
@@ -20,7 +15,6 @@ export default class RandomHillClimbingAgent extends Agent {
   }
 
   onReset() {
-    this.totalReward = 0;
     if (this.bestWeights) {
       this.weights = [
         this.bestWeights[0] + (Math.random() * 2 - 1) * DIVERSITY,
@@ -36,21 +30,20 @@ export default class RandomHillClimbingAgent extends Agent {
         Math.random() * 2 - 1
       ];
       // One of the best random weights found
-      // during my test(Episode #22).
+      // during my test(Episode #12).
       //
-      this.weights = [
-        0.03,
-        0.0435,
-        0.8463,
-        0.832
-      ];
+      // this.weights = [
+      //   0.12272906098273229,
+      //   0.05171682834523206,
+      //   0.7746913490599949,
+      //   1.109145679262887
+      // ];
     }
+    this.totalReward = 0;
+    console.info(this.weights.toString());
   }
 
-  react({
-    reward,
-    observation
-  }) {
+  react({ reward, observation }) {
     this.totalReward += reward;
     let result = 0;
     for (let i = 0; i < 3; i += 1) {
