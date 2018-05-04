@@ -84,12 +84,12 @@ export default class Game {
     this.gameOverElement.innerText = 'GAME OVER';
   }
 
+  /**
+   * Get a array-formed vector which indicates the game state.
+   * [ cartPositionX, cartSpeed, poleAngle, poleAngularSpeed ]
+   */
   getState() {
     return this.cartPole.getState();
-  }
-
-  getStateJSON() {
-    return this.cartPole.getStateJSON();
   }
 
   handleAfterUpdate = () => {
@@ -180,7 +180,7 @@ export default class Game {
   }
 
   /**
-   *
+   * Dispatch action to the game.
    */
   dispatch(action) {
     let actionObj = null;
