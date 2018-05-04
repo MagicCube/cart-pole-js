@@ -4,7 +4,7 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
 import CartPole from './CartPole';
 import Stage from './Stage';
 
-const DEFAULT_FORCE = 0.01;
+const DEFAULT_FORCE = 0.007;
 
 /**
  * The game application class.
@@ -173,9 +173,9 @@ export default class Game {
   update() {
     if (!this.gameOverred) {
       this.checkState();
-    }
-    if (typeof this.onUpdate === 'function') {
-      this.onUpdate();
+      if (typeof this.onUpdate === 'function') {
+        this.onUpdate();
+      }
     }
   }
 
