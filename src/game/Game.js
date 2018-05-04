@@ -16,8 +16,6 @@ export default class Game {
   totalReward = 0;
   totalEpisode = 0;
 
-  startTimestamp = 0;
-
   /**
    * Root HTML element of the game.
    */
@@ -132,7 +130,6 @@ export default class Game {
     }
     // Apply a slight force to break the balance after the game begins.
     this.cartPole.applyForce(INITIAL_FORCE);
-    this.startTimestamp = Date.now();
   }
 
   /**
@@ -185,7 +182,7 @@ export default class Game {
    * Show game over UI.
    */
   gameOver() {
-    console.info(`Episode #${this.totalEpisode} is over. Total reward is ${this.totalReward}. Duration is ${((Date.now() - this.startTimestamp) / 1000).toFixed(2)} seconds.`);
+    console.info(`Episode #${this.totalEpisode} is over. Total reward is ${this.totalReward}.`);
     this.gameOverred = true;
     this.rootElement.appendChild(this.gameOverElement);
   }
