@@ -31,7 +31,7 @@
     "matter-js": "^0.14.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development",
+    "start": "webpack-dev-server --mode development --port 8088",
     "build": "webpack --mode production"
   },
   "author": "Henry Li <henry1943@163.com>",
