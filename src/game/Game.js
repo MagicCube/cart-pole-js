@@ -13,8 +13,7 @@ export default class Game {
    */
   isRunning = false;
 
-  totalReward = 0;
-  totalEpisode = 0;
+  episode = 0;
 
   /**
    * Root HTML element of the game.
@@ -54,7 +53,7 @@ export default class Game {
    */
   init() {
     this.initMatterJS();
-    this.initGameOver();
+    this.initChildren();
     this.stage = new Stage(this.engine.world);
     this.reset();
   }
@@ -78,11 +77,15 @@ export default class Game {
   }
 
   /**
-   * Initialize game over UI.
+   * Initialize episode element and game over UI.
    */
-  initGameOver() {
+  initChildren() {
+    this.episodeElement = document.createElement('h2');
+    this.episodeElement.className = 'episode';
+    this.rootElement.appendChild(this.episodeElement);
+
     this.gameOverElement = document.createElement('div');
-    this.gameOverElement.className = 'cp-game-over';
+    this.gameOverElement.className = 'game-over';
     this.gameOverElement.innerText = 'GAME OVER';
   }
 
@@ -113,7 +116,6 @@ export default class Game {
    * Reset the game to the beginning state.
    */
   reset() {
-    this.totalReward = 0;
     this.gameOverred = false;
     this.gameOverElement.remove();
     this.stage.reset();
@@ -136,7 +138,8 @@ export default class Game {
    * Reset and start the game again.
    */
   restart() {
-    this.totalEpisode += 1;
+    this.episode += 1;
+    this.episodeElement.innerText = `Episode #${this.episode}`;
     this.reset();
     this.start();
   }
@@ -169,9 +172,6 @@ export default class Game {
   update() {
     if (!this.gameOverred) {
       this.checkState();
-      if (!this.gameOverred) {
-        this.totalReward += 1;
-      }
       if (typeof this.onUpdate === 'function') {
         this.onUpdate();
       }
@@ -182,7 +182,6 @@ export default class Game {
    * Show game over UI.
    */
   gameOver() {
-    console.info(`Episode #${this.totalEpisode} is over. Total reward is ${this.totalReward}.`);
     this.gameOverred = true;
     this.rootElement.appendChild(this.gameOverElement);
   }

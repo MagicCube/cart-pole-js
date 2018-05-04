@@ -8,10 +8,18 @@
   <script src="/assets/vendor.js"></script> </head>
 <body>
   <div class="cp-page">
-    <h1>THE CART POLE GAME</h1>
-    <div id="cp-game"></div>
-    <pre id="cp-status"></pre>
+    <div id="game" class="cp-game"></div>
+    <div class="cp-info">
+      <div class="current">
+        <h4>Current Reward</h4>
+        <h2 id="totalReward"></h2>
+      </div>
+      <div class="best">
+        <h4>Best Reward</h4>
+        <h2 id="bestReward"></h2>
+      </div>
+    </div>
+    <pre id="status"></pre>
   </div>
-  <script src="/assets/cart-pole.js"></script>
-</html>
+  <script src="/assets/cart-pole.js"></script> </html>
 </body>

@@ -10,7 +10,7 @@ function setup() {
     const agent = new Agent();
     agent.init();
     // Initialize game environment
-    env = new GameEnv(document.getElementById('cp-game'));
+    env = new GameEnv(document.getElementById('game'));
     if (getAgentName() === 'Keyboard') {
       env.REACT_INTERVAL = 0;
     }

@@ -3,12 +3,11 @@ import Agent from './Agent';
 const DIVERSITY = 0.08;
 
 export default class RandomHillClimbingAgent extends Agent {
-  totalReward = 0;
   bestTotalReward = 0;
   bestWeights = null;
 
   getStatus() {
-    return `Current Total Reward: ${this.totalReward}\nCurrent Weights: ${this.weights}\nBest Total Reward: ${this.bestTotalReward}\nBest Weights: ${this.bestWeights}`;
+    return `Current Weights: ${this.weights}\nBest Weights: ${this.bestWeights ? this.bestWeights : 'N/A'}`;
   }
 
   onGameOver() {

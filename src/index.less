@@ -7,7 +7,7 @@
   }
 }
 
-#cp-game {
+.cp-game {
   position: relative;
 
   canvas {
@@ -15,19 +15,39 @@
     border: 1px solid silver;
     margin: auto;
   }
+
+  .episode {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top: 10px;
+    left: 10px;
+  }
+
+  .game-over {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 42px;
+    font-weight: bold;
+  }
 }
 
-.cp-game-over {
+.cp-info {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 42px;
-  font-weight: bold;
+
+  .current {
+    width: 50%;
+  }
+
+  .best {
+    width: 50%;
+  }
 }

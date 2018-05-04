@@ -8,6 +8,9 @@ export default class GameEnv {
   game = null;
   agent = null;
   lastReactTime = 0;
+  totalReward = 0;
+  bestReward = 0;
+  bestEpisode = 0;
 
   constructor(rootElement) {
     this.game = new Game(rootElement);
@@ -18,6 +21,10 @@ export default class GameEnv {
   handleUpdate = () => {
     if (this.agent) {
       if (this.game.gameOverred) {
+        if (this.bestReward < this.totalReward) {
+          this.bestReward = this.totalReward;
+          this.bestEpisode = this.game.episode;
+        }
         // Send the last state to the agent.
         this.agent.react({
           observation: this.game.getState(),
@@ -34,23 +41,33 @@ export default class GameEnv {
         Date.now() - this.lastReactTime > this.REACT_INTERVAL
       ) {
         this.lastReactTime = Date.now();
-          // Send the state to the agent
-          const action = this.agent.react({
-            observation: this.game.getState(),
-            reward: 1,
-            done: false
-          });
-          // And send the action in return
-          if (action) {
-            this.game.dispatch(action);
-          }
+        this.totalReward += 1;
+        // Send the state to the agent
+        const action = this.agent.react({
+          observation: this.game.getState(),
+          reward: 1,
+          done: false
+        });
+        // And send the action in return
+        if (action) {
+          this.game.dispatch(action);
         }
+      }
       // Update status.
-      document.getElementById('cp-status').innerText = this.agent.getStatus();
+      document.getElementById('totalReward').innerText = this.totalReward;
+      if (this.bestEpisode !== 0) {
+        document.getElementById('bestReward').innerText = `${
+          this.bestReward
+        } @ Episode #${this.bestEpisode}`;
+      } else {
+        document.getElementById('bestReward').innerText = 'N/A';
+      }
+      document.getElementById('status').innerText = this.agent.getStatus();
     }
   };
 
   reset() {
+    this.totalReward = 0;
     this.lastReactTime = 0;
     if (this.agent) {
       this.agent.onReset();
