@@ -9,6 +9,14 @@ export default class Agent {
     return '';
   }
 
+  onReset() {
+
+  }
+
+  onGameOver() {
+
+  }
+
   react({
     observation,
     reward,
