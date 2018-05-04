@@ -1,10 +1,8 @@
 import { Engine, Events, Render, Runner } from 'matter-js';
 
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
+import { CANVAS_WIDTH, CANVAS_HEIGHT, INITIAL_FORCE, UNIT_FORCE } from './constants';
 import CartPole from './CartPole';
 import Stage from './Stage';
-
-const DEFAULT_FORCE = 0.007;
 
 /**
  * The game application class.
@@ -15,6 +13,7 @@ export default class Game {
    */
   isRunning = false;
 
+  totalReward = 0;
   totalEpisode = 0;
 
   startTimestamp = 0;
@@ -116,6 +115,7 @@ export default class Game {
    * Reset the game to the beginning state.
    */
   reset() {
+    this.totalReward = 0;
     this.gameOverred = false;
     this.gameOverElement.remove();
     this.stage.reset();
@@ -131,8 +131,7 @@ export default class Game {
       this.run();
     }
     // Apply a slight force to break the balance after the game begins.
-    const SLIGHT_FORCE = 0.008;
-    this.cartPole.applyForce(SLIGHT_FORCE * Math.random() - SLIGHT_FORCE / 2);
+    this.cartPole.applyForce(INITIAL_FORCE);
     this.startTimestamp = Date.now();
   }
 
@@ -173,6 +172,9 @@ export default class Game {
   update() {
     if (!this.gameOverred) {
       this.checkState();
+      if (!this.gameOverred) {
+        this.totalReward += 1;
+      }
       if (typeof this.onUpdate === 'function') {
         this.onUpdate();
       }
@@ -183,7 +185,7 @@ export default class Game {
    * Show game over UI.
    */
   gameOver() {
-    console.info(`Episode #${this.totalEpisode} is over. Duration is ${((Date.now() - this.startTimestamp) / 1000).toFixed(2)} seconds.`);
+    console.info(`Episode #${this.totalEpisode} is over. Total reward is ${this.totalReward}. Duration is ${((Date.now() - this.startTimestamp) / 1000).toFixed(2)} seconds.`);
     this.gameOverred = true;
     this.rootElement.appendChild(this.gameOverElement);
   }
@@ -198,7 +200,7 @@ export default class Game {
     } else if (typeof action === 'number') {
       actionObj = {
         type: 'move',
-        payload: action * DEFAULT_FORCE
+        payload: action * UNIT_FORCE
       };
     } else {
       throw new Error('Unknown type of Action.');

@@ -22,6 +22,7 @@ export default class GameEnv {
           reward: 0,
           done: true
         });
+        this.agent.onGameOver();
         // Display the Game Over UI for a while.
         setTimeout(() => {
           this.reset();
@@ -44,6 +45,9 @@ export default class GameEnv {
   };
 
   reset() {
+    if (this.agent) {
+      this.agent.onReset();
+    }
     this.game.restart();
   }
 }
