@@ -18,18 +18,15 @@ export default class GameEnv {
   async step(action) {
     this.game.dispatch(action);
     const observation = await this.getObservation();
-    const gameOver = false;
+    const gameOverred = this.game.gameOverred;
     return {
       observation,
-      reward: 1, // In Cart Pole game, the reward is always +1 before game over.
-      done: gameOver
+      reward: gameOverred ? 0 : 1, // In Cart Pole game, the reward is always +1 before game over.
+      done: gameOverred
     };
   }
 
   async reset() {
-    if (!this.game.isRunning) {
-      this.game.run();
-    }
     this.game.restart();
     const observation = await this.getObservation();
     return observation;

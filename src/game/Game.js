@@ -48,6 +48,7 @@ export default class Game {
    */
   init() {
     this.initMatterJS();
+    this.initGameOver();
     this.stage = new Stage(this.engine.world);
     this.reset();
   }
@@ -68,6 +69,15 @@ export default class Game {
       }
     });
     this.runner = Runner.create();
+  }
+
+  /**
+   * Initialize game over UI.
+   */
+  initGameOver() {
+    this.gameOverElement = document.createElement('div');
+    this.gameOverElement.className = 'cp-game-over';
+    this.gameOverElement.innerText = 'GAME OVER';
   }
 
   getState() {
@@ -105,6 +115,8 @@ export default class Game {
    * Reset the game to the beginning state.
    */
   reset() {
+    this.gameOverred = false;
+    this.gameOverElement.remove();
     this.stage.reset();
     this.cartPole = new CartPole();
     this.stage.add(this.cartPole);
@@ -131,10 +143,26 @@ export default class Game {
   }
 
   /**
-   *
+   * Updates continuously when running.
    */
   update() {
     document.getElementById('cp-info').innerText = this.cartPole.getState().map(value => value.toFixed(2)).join('\n');
+    const [cartPos, , poleAngle] = this.cartPole.getState();
+    if (!this.gameOverred) {
+      if (Math.abs(cartPos) > 0.95) {
+        this.gameOver();
+      } else if (Math.abs(poleAngle) >= 0.5) {
+        this.gameOver();
+      }
+    }
+  }
+
+  /**
+   * Show game over UI.
+   */
+  gameOver() {
+    this.gameOverred = true;
+    this.rootElement.appendChild(this.gameOverElement);
   }
 
   /**
