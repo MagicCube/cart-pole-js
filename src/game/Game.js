@@ -9,6 +9,11 @@ import Stage from './Stage';
  */
 export default class Game {
   /**
+   * Returns wheather the game is running.
+   */
+  isRunning = false;
+
+  /**
    * Root HTML element of the game.
    */
   rootElement = null;
@@ -63,21 +68,16 @@ export default class Game {
     });
   }
 
+  getState() {
+    return this.cartPole.getState();
+  }
+
+  getStateJSON() {
+    return this.cartPole.getStateJSON();
+  }
+
   handleAfterUpdate = () => {
     this.update();
-  };
-
-  handleKeyDown = ({ key }) => {
-    switch (key) {
-      case 'ArrowLeft':
-        this.cartPole.applyForce(-0.03);
-        break;
-      case 'ArrowRight':
-        this.cartPole.applyForce(0.03);
-        break;
-      default:
-        break;
-    }
   };
 
   /**
@@ -87,6 +87,7 @@ export default class Game {
     Engine.run(this.engine);
     Render.run(this.renderer);
     Events.on(this.engine, 'afterUpdate', this.handleAfterUpdate);
+    this.isRunning = true;
   }
 
   /**
