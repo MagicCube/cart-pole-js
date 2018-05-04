@@ -4,6 +4,7 @@ import Game from '../game/Game';
  * The environment of Cart Pole game.
  */
 export default class GameEnv {
+  REACT_INTERVAL = 100;
   game = null;
   agent = null;
   lastReactTime = 0;
@@ -30,7 +31,7 @@ export default class GameEnv {
         }, 600);
       } else if (
         this.lastReactTime === 0 ||
-        Date.now() - this.lastReactTime > 0
+        Date.now() - this.lastReactTime > this.REACT_INTERVAL
       ) {
         this.lastReactTime = Date.now();
           // Send the state to the agent

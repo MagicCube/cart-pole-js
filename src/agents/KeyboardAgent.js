@@ -41,9 +41,15 @@ export default class KeyboardAgent extends Agent {
 
   react() {
     if (this.requestRight) {
-      return 1;
+      return {
+        type: 'move',
+        payload: 0.01
+      };
     } else if (this.requestLeft) {
-      return -1;
+      return {
+        type: 'move',
+        payload: -0.01
+      };
     } else if (this.requestReset) {
       this.requestReset = false;
       return {

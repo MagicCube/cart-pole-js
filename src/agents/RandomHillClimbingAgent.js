@@ -26,10 +26,12 @@ export default class RandomHillClimbingAgent extends Agent {
       this.weights = [
         this.bestWeights[0] + (Math.random() * 2 - 1) * DIVERSITY,
         this.bestWeights[1] + (Math.random() * 2 - 1) * DIVERSITY,
-        this.bestWeights[2] + (Math.random() * 2 - 1) * DIVERSITY
+        this.bestWeights[2] + (Math.random() * 2 - 1) * DIVERSITY,
+        this.bestWeights[3] + (Math.random() * 2 - 1) * DIVERSITY
       ];
     } else {
       this.weights = [
+        Math.random() * 2 - 1,
         Math.random() * 2 - 1,
         Math.random() * 2 - 1,
         Math.random() * 2 - 1

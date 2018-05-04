@@ -10,4 +10,4 @@ export const POLE_WIDTH = 12;
 export const POLE_HEIGHT = 160;
 
 export const INITIAL_FORCE = 0.001;
-export const UNIT_FORCE = 0.0065;
+export const UNIT_FORCE = 0.02;
