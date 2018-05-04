@@ -39,7 +39,7 @@ export default class Game {
   /**
    * Construct and initialize objects in the game.
    */
-  setup() {
+  init() {
     this.initMatterJS();
     this.stage = new Stage(this.engine.world);
     window.addEventListener('keydown', this.handleKeyDown);

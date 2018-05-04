@@ -5,7 +5,7 @@ import './index.less';
 document.addEventListener('DOMContentLoaded', () => {
   const game = new Game(document.getElementById('cp-game'));
   window.game = game;
-  game.setup();
+  game.init();
   game.run();
   game.restart();
 });
