@@ -11,9 +11,13 @@ const DEFAULT_FORCE = 0.03;
  */
 export default class Game {
   /**
-   * Returns wheather the game is running.
+   * Whether the game is running.
    */
   isRunning = false;
+
+  totalEpisode = 0;
+
+  startTimestamp = 0;
 
   /**
    * Root HTML element of the game.
@@ -132,35 +136,45 @@ export default class Game {
     // Apply a slight force to break the balance after the game begins.
     const SLIGHT_FORCE = 0.008;
     this.cartPole.applyForce(SLIGHT_FORCE * Math.random() - SLIGHT_FORCE / 2);
+    this.startTimestamp = Date.now();
   }
 
   /**
    * Reset and start the game again.
    */
   restart() {
+    this.totalEpisode += 1;
     this.reset();
     this.start();
   }
 
   /**
-   * Updates continuously when running.
+   * Check game state to see whether it is game overred.
    */
-  update() {
-    document.getElementById('cp-info').innerText = this.cartPole.getState().map(value => value.toFixed(2)).join('\n');
-    const [cartPos, , poleAngle] = this.cartPole.getState();
+  checkState() {
     if (!this.gameOverred) {
+      const [cartPos, , poleAngle] = this.cartPole.getState();
       if (Math.abs(cartPos) > 0.95) {
         this.gameOver();
       } else if (Math.abs(poleAngle) >= 0.5) {
         this.gameOver();
       }
     }
+    return this.gameOverred;
+  }
+
+  /**
+   * Updates continuously when running.
+   */
+  update() {
+    this.checkState();
   }
 
   /**
    * Show game over UI.
    */
   gameOver() {
+    console.info(`Episode #${this.totalEpisode} is over. Duration is ${((Date.now() - this.startTimestamp) / 1000).toFixed(2)} seconds.`);
     this.gameOverred = true;
     this.rootElement.appendChild(this.gameOverElement);
   }
