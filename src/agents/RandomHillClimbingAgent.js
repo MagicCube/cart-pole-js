@@ -36,6 +36,15 @@ export default class RandomHillClimbingAgent extends Agent {
         Math.random() * 2 - 1,
         Math.random() * 2 - 1
       ];
+      // One of the best random weights found
+      // during my test(Episode #22).
+      //
+      this.weights = [
+        0.03,
+        0.0435,
+        0.8463,
+        0.832
+      ];
     }
   }
 
