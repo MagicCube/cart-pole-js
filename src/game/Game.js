@@ -1,4 +1,4 @@
-import { Engine, Events, Render } from 'matter-js';
+import { Engine, Events, Render, Runner } from 'matter-js';
 
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from './constants';
 import CartPole from './CartPole';
@@ -67,6 +67,7 @@ export default class Game {
         background: '#ffff'
       }
     });
+    this.runner = Runner.create();
   }
 
   getState() {
@@ -82,13 +83,22 @@ export default class Game {
   };
 
   /**
-   * Run the game.
+   * Start game running.
    */
   run() {
-    Engine.run(this.engine);
+    Runner.run(this.runner, this.engine);
     Render.run(this.renderer);
     Events.on(this.engine, 'afterUpdate', this.handleAfterUpdate);
     this.isRunning = true;
+  }
+
+  /**
+   * Stop game running.
+   */
+  stop() {
+    Runner.stop(this.runner);
+    Render.stop(this.renderer);
+    this.isRunning = false;
   }
 
   /**
@@ -104,6 +114,9 @@ export default class Game {
    * Start the game.
    */
   start() {
+    if (!this.isRunning) {
+      this.run();
+    }
     // Apply a slight force to break the balance after the game begins.
     const SLIGHT_FORCE = 0.008;
     this.cartPole.applyForce(SLIGHT_FORCE * Math.random() - SLIGHT_FORCE / 2);
