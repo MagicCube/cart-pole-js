@@ -6,6 +6,7 @@ import Game from '../game/Game';
 export default class GameEnv {
   game = null;
   agent = null;
+  lastReactTime = 0;
 
   constructor(rootElement) {
     this.game = new Game(rootElement);
@@ -27,24 +28,29 @@ export default class GameEnv {
         setTimeout(() => {
           this.reset();
         }, 600);
-      } else {
-        // Send the state to the agent
-        const action = this.agent.react({
-          observation: this.game.getState(),
-          reward: 1,
-          done: false
-        });
-        // And send the action in return
-        if (action) {
-          this.game.dispatch(action);
+      } else if (
+        this.lastReactTime === 0 ||
+        Date.now() - this.lastReactTime > 0
+      ) {
+        this.lastReactTime = Date.now();
+          // Send the state to the agent
+          const action = this.agent.react({
+            observation: this.game.getState(),
+            reward: 1,
+            done: false
+          });
+          // And send the action in return
+          if (action) {
+            this.game.dispatch(action);
+          }
         }
-      }
       // Update status.
       document.getElementById('cp-status').innerText = this.agent.getStatus();
     }
   };
 
   reset() {
+    this.lastReactTime = 0;
     if (this.agent) {
       this.agent.onReset();
     }
