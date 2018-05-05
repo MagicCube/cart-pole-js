@@ -29,15 +29,12 @@ export default class RandomHillClimbingAgent extends Agent {
         Math.random() * 2 - 1,
         Math.random() * 2 - 1
       ];
-      // One of the best random weights found
-      // during my test(Episode #12).
+      // Some of the best random weights found
+      // during my tests.
       //
-      // this.weights = [
-      //   0.12272906098273229,
-      //   0.05171682834523206,
-      //   0.7746913490599949,
-      //   1.109145679262887
-      // ];
+      // this.weights = [ 0.12272906098273229, 0.05171682834523206, 0.7746913490599949, 1.109145679262887 ];
+      // this.weights = [ 0.22954301190558787, 0.00089575518357142, 0.5877188457671694, 0.40653325525236206 ]
+      // this.weights = [ 0.029339054268042605, 0.034424966244165224, 0.5089348031645287, 0.4829329102598643 ]
     }
     this.totalReward = 0;
     console.info(this.weights.toString());
