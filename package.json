@@ -1,7 +1,7 @@
 {
   "name": "cart-pole-js",
   "version": "1.0.0",
-  "description": "The classic CartPole game implemented in JavaScript, and powered by TensorFlow.js.",
+  "description": "The classic Cart Pole game implemented in JavaScript, and powered by TensorFlow.js.",
   "main": "index.js",
   "devDependencies": {
     "babel-core": "^6.26.0",
