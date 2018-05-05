@@ -10,7 +10,7 @@ export default class BarChart {
   append(episode, reward) {
     const row = document.createElement('div');
     row.className = 'row';
-    row.innerHTML = `<div class=episode>#${episode}</div><div class=bar style="width: ${reward / 200 < 1 ? reward / 200 * 100 : 100}%"><div class="reward">${reward}</div></div>`;
+    row.innerHTML = `<div class=episode>#${episode}</div><div class=bar-container><div class=bar style="width: ${reward / 200 < 1 ? reward / 200 * 100 : 100}%"><div class=reward>${reward}</div></div></div>`;
     this.element.appendChild(row);
   }
 }
