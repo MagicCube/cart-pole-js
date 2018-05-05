@@ -25,7 +25,7 @@ export default class GameEnv {
     if (this.agent) {
       if (this.game.gameOverred) {
         this.barChart.append(this.game.episode, this.totalReward);
-        if (this.bestReward < this.totalReward) {
+        if (this.bestReward <= this.totalReward) {
           this.bestReward = this.totalReward;
           this.bestEpisode = this.game.episode;
         }
