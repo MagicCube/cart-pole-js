@@ -7,17 +7,6 @@ export default class RandomHillClimbingAgent extends Agent {
   bestWeights = null;
   shiftRate = 0.1;
 
-  onGameOver() {
-    if (this.totalReward >= this.bestTotalReward) {
-      this.bestTotalReward = this.totalReward;
-      // Decrease the shift rate.
-      this.shiftRate = this.shiftRate * SHIFT_RATE_DISCOUNT;
-      // Clone the weights as the best weights.
-      this.bestWeights = this.weights.slice(0);
-      console.info('New record!');
-    }
-  }
-
   onReset() {
     if (this.bestWeights) {
       this.weights = [
@@ -65,5 +54,16 @@ export default class RandomHillClimbingAgent extends Agent {
       result += observation[i] * this.weights[i];
     }
     return result > 0 ? 1 : -1;
+  }
+
+  onGameOver() {
+    if (this.totalReward >= this.bestTotalReward) {
+      this.bestTotalReward = this.totalReward;
+      // Decrease the shift rate.
+      this.shiftRate = this.shiftRate * SHIFT_RATE_DISCOUNT;
+      // Clone the weights as the best weights.
+      this.bestWeights = this.weights.slice(0);
+      console.info('New record!');
+    }
   }
 }

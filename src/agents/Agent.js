@@ -1,6 +1,9 @@
 /* eslint-disable */
 
 export default class Agent {
+  totalReward = 0;
+  bestTotalReward = 0;
+
   init() {
 
   }
@@ -10,11 +13,7 @@ export default class Agent {
   }
 
   onReset() {
-
-  }
-
-  onGameOver() {
-
+    this.totalReward = 0;
   }
 
   react({
@@ -22,6 +21,13 @@ export default class Agent {
     reward,
     done
   }) {
+    this.totalReward += reward;
+    return null;
+  }
 
+  onGameOver() {
+    if (this.totalReward >= this.bestTotalReward) {
+      this.bestTotalReward = this.totalReward;
+    }
   }
 }

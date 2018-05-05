@@ -39,7 +39,8 @@ export default class KeyboardAgent extends Agent {
     return 'Use Left or Right arrow to move the cart. Press "R" key to restart the game.';
   }
 
-  react() {
+  react(...args) {
+    this.react(...args);
     if (this.requestRight) {
       return {
         type: 'move',
