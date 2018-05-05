@@ -1,6 +1,6 @@
 import Agent from './Agent';
 
-const SHIFT_RATE_DISCOUNT = 0.9;
+const SHIFT_RATE_DISCOUNT = 0.92;
 
 export default class RandomHillClimbingAgent extends Agent {
   bestTotalReward = 0;
@@ -10,9 +10,11 @@ export default class RandomHillClimbingAgent extends Agent {
   onGameOver() {
     if (this.totalReward >= this.bestTotalReward) {
       this.bestTotalReward = this.totalReward;
+      // Decrease the shift rate.
+      this.shiftRate = this.shiftRate * SHIFT_RATE_DISCOUNT;
       // Clone the weights as the best weights.
       this.bestWeights = this.weights.slice(0);
-      console.info('Best Weights yet: ', this.bestWeights);
+      console.info('New record!');
     }
   }
 
@@ -24,7 +26,6 @@ export default class RandomHillClimbingAgent extends Agent {
         this.bestWeights[2] + (Math.random() * 2 - 1) * this.shiftRate,
         this.bestWeights[3] + (Math.random() * 2 - 1) * this.shiftRate
       ];
-      this.shiftRate = this.shiftRate * SHIFT_RATE_DISCOUNT;
     } else {
       this.weights = [
         Math.random() * 2 - 1,
@@ -34,24 +35,23 @@ export default class RandomHillClimbingAgent extends Agent {
       ];
       // Some of the best random weights found
       // during my tests.
-      //
-      // this.weights = [
-      //   0.08594547751885492,
-      //   0.05424044854801209,
-      //   0.6749857288583574,
-      //   1.1543822129355774
-      // ];
-      // this.weights = [
-      //   0.22954301190558787,
-      //   0.00089575518357142,
-      //   0.5877188457671694,
-      //   0.40653325525236206
-      // ];
       // this.weights = [
       //   -0.000017151126494484564,
       //   0.03517469972639349,
       //   0.6285225983823242,
       //   0.3363100779954527
+      // ];
+      // this.weights = [
+      //   0.06233402876552712,
+      //   0.006498441905731317,
+      //   0.6284282919692565,
+      //   1.0538654805754197
+      // ];
+      // this.weights = [
+      //   0.26681476527677067,
+      //   0.006037232012131644,
+      //   0.6322826312537404,
+      //   0.45005498159847745
       // ];
     }
     this.totalReward = 0;
