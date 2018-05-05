@@ -56,7 +56,7 @@ export default class RandomHillClimbingAgent extends Agent {
     return result > 0 ? 1 : -1;
   }
 
-  onGameOver() {
+  onDone() {
     if (this.totalReward >= this.bestTotalReward) {
       this.bestTotalReward = this.totalReward;
       // Decrease the shift rate.
