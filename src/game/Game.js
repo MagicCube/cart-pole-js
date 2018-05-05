@@ -13,6 +13,9 @@ export default class Game {
    */
   isRunning = false;
 
+  /**
+   * Indicates how many times the game has been played.
+   */
   episode = 0;
 
   /**
@@ -21,12 +24,12 @@ export default class Game {
   rootElement = null;
 
   /**
-   * The engine of Matter.js
+   * The engine of Matter.js.
    */
   engine = null;
 
   /**
-   * The renderer of Matter.js
+   * The renderer of Matter.js.
    */
   renderer = null;
 
@@ -187,7 +190,7 @@ export default class Game {
   }
 
   /**
-   * Dispatch action to the game.
+   * Allow dispatch actions to the game from outside.
    */
   dispatch(action) {
     let actionObj = null;
