@@ -1,27 +1,30 @@
 import Agent from './Agent';
 
-const SHIFT_RATE = 0.1;
+const SHIFT_RATE_DISCOUNT = 0.9;
 
 export default class RandomHillClimbingAgent extends Agent {
   bestTotalReward = 0;
   bestWeights = null;
+  shiftRate = 0.1;
 
   onGameOver() {
     if (this.totalReward >= this.bestTotalReward) {
       this.bestTotalReward = this.totalReward;
       // Clone the weights as the best weights.
       this.bestWeights = this.weights.slice(0);
+      console.info('Best Weights yet: ', this.bestWeights);
     }
   }
 
   onReset() {
     if (this.bestWeights) {
       this.weights = [
-        this.bestWeights[0] + (Math.random() * 2 - 1) * SHIFT_RATE,
-        this.bestWeights[1] + (Math.random() * 2 - 1) * SHIFT_RATE,
-        this.bestWeights[2] + (Math.random() * 2 - 1) * SHIFT_RATE,
-        this.bestWeights[3] + (Math.random() * 2 - 1) * SHIFT_RATE
+        this.bestWeights[0] + (Math.random() * 2 - 1) * this.shiftRate,
+        this.bestWeights[1] + (Math.random() * 2 - 1) * this.shiftRate,
+        this.bestWeights[2] + (Math.random() * 2 - 1) * this.shiftRate,
+        this.bestWeights[3] + (Math.random() * 2 - 1) * this.shiftRate
       ];
+      this.shiftRate = this.shiftRate * SHIFT_RATE_DISCOUNT;
     } else {
       this.weights = [
         Math.random() * 2 - 1,
@@ -33,10 +36,10 @@ export default class RandomHillClimbingAgent extends Agent {
       // during my tests.
       //
       // this.weights = [
-      //   0.12272906098273229,
-      //   0.05171682834523206,
-      //   0.7746913490599949,
-      //   1.109145679262887
+      //   0.08594547751885492,
+      //   0.05424044854801209,
+      //   0.6749857288583574,
+      //   1.1543822129355774
       // ];
       // this.weights = [
       //   0.22954301190558787,
@@ -44,11 +47,11 @@ export default class RandomHillClimbingAgent extends Agent {
       //   0.5877188457671694,
       //   0.40653325525236206
       // ];
-      // Kthis.weights = [
-      //   0.029339054268042605,
-      //   0.034424966244165224,
-      //   0.5089348031645287,
-      //   0.4829329102598643
+      // this.weights = [
+      //   -0.000017151126494484564,
+      //   0.03517469972639349,
+      //   0.6285225983823242,
+      //   0.3363100779954527
       // ];
     }
     this.totalReward = 0;
