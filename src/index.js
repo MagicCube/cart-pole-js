@@ -11,9 +11,6 @@ function setup() {
     agent.init();
     // Initialize game environment
     env = new GameEnv(document.getElementById('game'));
-    if (getAgentName() === 'Keyboard') {
-      env.REACT_INTERVAL = 0;
-    }
     env.agent = agent;
     // Start loop
     env.reset();
