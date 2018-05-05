@@ -1,4 +1,4 @@
-import Agent from './Agent';
+import Agent from '../Agent';
 
 export default class PolicyGradientAgent extends Agent {
   totalReward = 0;
