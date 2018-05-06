@@ -9,6 +9,7 @@ export default class PolicyGradientAgent extends Agent {
   }
 
   onReset() {
+    this.model.reset();
   }
 
   react({ observation, reward }) {
@@ -23,6 +24,5 @@ export default class PolicyGradientAgent extends Agent {
 
   onDone() {
     this.model.learn();
-    this.model.reset();
   }
 }
