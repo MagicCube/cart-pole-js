@@ -24,11 +24,11 @@ export default class GameEnv {
   handleUpdate = () => {
     if (this.agent) {
       if (this.game.gameOverred) {
-        this.barChart.append(this.game.episode, this.totalReward);
         if (this.bestReward <= this.totalReward) {
           this.bestReward = this.totalReward;
           this.bestEpisode = this.game.episode;
         }
+        this.barChart.append(this.game.episode, this.totalReward);
         // Send the last state to the agent.
         this.agent.react({
           observation: this.game.getState(),
@@ -58,6 +58,7 @@ export default class GameEnv {
         }
       }
       // Update status.
+      document.getElementById('totalReward').innerText = `${this.totalReward} @ Episode #${this.game.episode}`;
       document.getElementById('totalReward').innerText = `${this.totalReward} @ Episode #${this.game.episode}`;
       if (this.bestEpisode !== 0) {
         document.getElementById('bestReward').innerText = `${
