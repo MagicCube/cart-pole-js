@@ -23,12 +23,12 @@ export default class RandomHillClimbingAgent extends Agent {
         Math.random() * 2 - 1
       ];
       // For demo
-      this.weights = [
-        -0.18626798701437597,
-        0.20116510214194294,
-        0.9034791617169149,
-        0.9080503784863003
-      ];
+      // this.weights = [
+      //   -0.18626798701437597,
+      //   0.20116510214194294,
+      //   0.9034791617169149,
+      //   0.9080503784863003
+      // ];
       // Some of the best random weights found
       // during my tests.
       // this.weights = [
