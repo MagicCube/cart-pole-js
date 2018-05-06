@@ -4,9 +4,6 @@
  * An agent represent a human player or AI player.
  */
 export default class Agent {
-  totalReward = 0;
-  bestTotalReward = 0;
-
   /**
    * Initialize the agent.
    */
@@ -25,7 +22,6 @@ export default class Agent {
    * Fires everytime before a new game starts.
    */
   onReset() {
-    this.totalReward = 0;
   }
 
   /**
@@ -38,7 +34,6 @@ export default class Agent {
     reward,
     done
   }) {
-    this.totalReward += reward;
     return null;
   }
 
@@ -46,8 +41,5 @@ export default class Agent {
    * Fires everytime after the game is over.
    */
   onDone() {
-    if (this.totalReward >= this.bestTotalReward) {
-      this.bestTotalReward = this.totalReward;
-    }
   }
 }

@@ -3,6 +3,7 @@ import Agent from './Agent';
 const SHIFT_RATE_DISCOUNT = 0.92;
 
 export default class RandomHillClimbingAgent extends Agent {
+  totalReward = 0;
   bestTotalReward = 0;
   bestWeights = null;
   shiftRate = 0.1;
