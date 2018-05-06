@@ -58,7 +58,7 @@ export default class GameEnv {
         }
       }
       // Update status.
-      document.getElementById('totalReward').innerText = this.totalReward;
+      document.getElementById('totalReward').innerText = `${this.totalReward} @ Episode #${this.game.episode}`;
       if (this.bestEpisode !== 0) {
         document.getElementById('bestReward').innerText = `${
           this.bestReward
