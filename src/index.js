@@ -1,8 +1,11 @@
+import * as tf from '@tensorflow/tfjs';
+
 import GameEnv from './env/GameEnv';
 
 import './index.less';
 
 let env = null;
+window.tf = tf;
 
 function setup() {
   getAgentClass().then((Agent) => {
