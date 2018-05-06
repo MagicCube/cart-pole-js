@@ -1,21 +1,28 @@
 import Agent from '../Agent';
+import PolicyGradientModel from './PolicyGradientModel';
 
 export default class PolicyGradientAgent extends Agent {
-  totalReward = 0;
-  bestTotalReward = 0;
+  model = null;
 
-  onReset() {
-    this.totalReward = 0;
+  init() {
+    this.model = new PolicyGradientModel();
   }
 
-  react({ reward, observation }) {
-    this.totalReward += reward;
-    return 0;
+  onReset() {
+  }
+
+  react({ observation, reward }) {
+    const action = this.model.chooseAction(observation);
+    this.model.store({
+      observation,
+      action,
+      reward
+    });
+    return action;
   }
 
   onDone() {
-    if (this.totalReward >= this.bestTotalReward) {
-      this.bestTotalReward = this.totalReward;
-    }
+    this.model.learn();
+    this.model.reset();
   }
 }
