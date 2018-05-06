@@ -40,7 +40,6 @@ export default class KeyboardAgent extends Agent {
   }
 
   react(...args) {
-    this.react(...args);
     if (this.requestRight) {
       return {
         type: 'move',
