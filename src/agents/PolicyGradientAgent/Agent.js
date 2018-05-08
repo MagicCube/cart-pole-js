@@ -22,7 +22,7 @@ export default class PolicyGradientAgent extends Agent {
     return action;
   }
 
-  onDone() {
-    this.model.learn();
+  async onDone() {
+    await this.model.learn();
   }
 }

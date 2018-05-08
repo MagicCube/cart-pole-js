@@ -22,45 +22,66 @@ export default class PolicyGradientModel {
 
   buildNNModel() {
     // Observations as the only inputs
-    this.inputObservations = tf.input({ shape: [4] });
-    const denseLayer1 = tf.layers.dense({ units: 10, activation: 'relu' });
-    const denseLayer2 = tf.layers.dense({
-      units: this.actionTypeCount,
-      activation: 'softmax'
-    });
-    this.outputActions = denseLayer2.apply(
-      denseLayer1.apply(this.inputObservations)
+    this.neuralNetworkModel = tf.sequential();
+    this.neuralNetworkModel.add(
+      tf.layers.dense({ inputShape: [this.observationDim], units: 10, activation: 'relu' })
     );
-    this.neuralNetworkModel = tf.model({
-      inputs: this.inputObservations,
-      outputs: this.outputActions
+    this.neuralNetworkModel.add(
+      tf.layers.dense({ units: this.actionTypeCount, activation: 'softmax' })
+    );
+    this.neuralNetworkModel.compile({
+      optimizer: new tf.SGDOptimizer(this.learningRate),
+      loss: (yTrue, yPredict) => {
+        // [n, 2]
+        const negtiveLogProb = tf.sum(tf.neg(tf.mul(tf.log(yPredict), yTrue)), 1);
+        const loss = tf.mean(tf.mul(negtiveLogProb, tf.tensor(this.rewards)));
+        return loss;
+      }
     });
   }
 
   store({ observation, action, reward }) {
     this.observations.push(observation);
-    this.actions.push(action);
+    // [left, right]
+    this.actions.push(action === 1 ? [0, 1] : [1, 0]);
     this.rewards.push(reward);
   }
 
   reset() {
     this.observations.splice(0, this.observations.length);
-    this.actions.splice(0);
-    this.rewards.splice(0);
+    this.actions.splice(0, this.actions.length);
+    this.rewards.splice(0, this.rewards.length);
   }
 
   chooseAction(observation) {
-    const weights = tf.tensor([
-      0.2,
-      0,
-      0.6,
-      0.4
-    ]);
-    const results = tf.sum(tf.mul(tf.tensor(observation), weights));
-    return results.dataSync()[0] > 0 ? 1 : -1;
+    const prob = this.neuralNetworkModel.predict(tf.tensor([observation])).dataSync();
+    const rnd = Math.random();
+    let action;
+    if (rnd < prob[0]) {
+      action = -1;
+    } else {
+      action = 1;
+    }
+    return action;
   }
 
-  learn() {
+  async learn() {
+    this.processRewards();
+    const inputs = tf.tensor(this.observations);
+    const labels = tf.tensor(this.actions);
+    await this.neuralNetworkModel.fit(inputs, labels, { epoch: 100 });
+  }
 
+  processRewards() {
+    const rewards = [];
+    let runningAdd = 0;
+    let sum = 0;
+    for (let i = this.rewards.length - 1; i >= 0; i -= 1) {
+      runningAdd = runningAdd * this.rewardDecay + this.rewards[i];
+      sum += runningAdd;
+      rewards.unshift(runningAdd);
+    }
+    const mean = sum / this.rewards.length;
+    this.rewards = rewards.map((reward) => (reward - mean) / mean);
   }
 }

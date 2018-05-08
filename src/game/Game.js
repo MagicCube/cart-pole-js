@@ -163,7 +163,7 @@ export default class Game {
       const state = this.cartPole.getStateJSON();
       if (Math.abs(state.cartPosition) > 0.95) {
         this.gameOver();
-      } else if (Math.abs(state.poleAngle) >= 0.5) {
+      } else if (Math.abs(state.poleAngle) >= 0.1) {
         this.gameOver();
       }
     }

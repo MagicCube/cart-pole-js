@@ -21,7 +21,7 @@ export default class GameEnv {
     this.barChart = new BarChart(document.getElementById('page'));
   }
 
-  handleUpdate = () => {
+  handleUpdate = async () => {
     if (this.agent) {
       if (this.game.gameOverred) {
         if (this.bestReward <= this.totalReward) {
@@ -35,7 +35,7 @@ export default class GameEnv {
           reward: 0,
           done: true
         });
-        this.agent.onDone();
+        await this.agent.onDone();
         // Display the Game Over UI for a while.
         setTimeout(() => {
           this.reset();

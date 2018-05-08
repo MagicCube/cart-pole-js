@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import * as tf from '@tensorflow/tfjs';
 
 import GameEnv from './env/GameEnv';
