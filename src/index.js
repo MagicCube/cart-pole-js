@@ -6,8 +6,6 @@ import PolicyAgent from './agents/PolicyGradientAgent';
 import KeyboardAgent from './agents/KeyboardAgent';
 import RandomHillClimbingAgent from './agents/RandomHillClimbingAgent';
 
-import GameEnv from './env/GameEnv';
-
 import './index.less';
 
 let env = null;
