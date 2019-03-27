@@ -9,6 +9,7 @@
     "browser": true
   },
   "rules": {
+    "linebreak-style": 0,
     "comma-dangle": "off",
     "function-paren-newline": "off",
     "global-require": "off",
