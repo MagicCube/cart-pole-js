@@ -2,6 +2,11 @@ import 'babel-polyfill';
 import * as tf from '@tensorflow/tfjs';
 
 import GameEnv from './env/GameEnv';
+import PolicyAgent from './agents/PolicyGradientAgent';
+import KeyboardAgent from './agents/KeyboardAgent';
+import RandomHillClimbingAgent from './agents/RandomHillClimbingAgent';
+
+import GameEnv from './env/GameEnv';
 
 import './index.less';
 
